@@ -101,17 +101,34 @@ def inverso_modular(a, m):
     print('Não há inverso modular para o bloco. \n')
     return None
 
-def cripto(self, m, e, n):
-    return (m ** e) % n
-
-def decripto(self, c, d, n):
-    return (c ** d) % n
-
 def encriptar(texto, n, e):
-    enc = ''.join(chr(cripto(ord(x), e, n)) for x in texto)
-    print('Texto Encriptado: ', enc, '\n')
-    return enc
+    tam = len(texto)
+    i = 0
+    lista = list()
+    while i < tam:
+        letra = texto[i]
+        k = ord(letra)
+        k = k ** e
+        d = modulacao(k, n)
+        lista.append(d)
+        i = i + 1
+    return lista
 
-def decriptar(texto, n, d):
-    dec = ''.join(chr(decripto(ord(x), d, n)) for x in texto)
-    return print('A mensagem era: ', dec, '\n')
+def decriptar(blocos, n, d):
+    tam = len(blocos)
+    i = 0
+    lista = list()
+    while i < tam:
+        resultado = blocos[i] ** d
+        texto = modulacao(resultado, n)
+        letra = chr(texto)
+        lista.append(letra)
+        i = i + 1
+    return lista
+
+def modulacao(a, b):
+    if a < b:
+        return a
+    else:
+        c = a % b
+        return c
